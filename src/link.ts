@@ -1,5 +1,5 @@
 import van from "vanjs-core";
-import { updateRouterState } from "@/state";
+import { _routerPathname } from "@/_state";
 
 interface LinkProps extends Partial<HTMLAnchorElement> {
   replace?: boolean;
@@ -16,7 +16,7 @@ export function Link(props: LinkProps, ...children: (HTMLElement | string)[]) {
         e.preventDefault();
         window.history.pushState({}, "", href);
         // Update the global state of the router to trigger the Router
-        if (href) updateRouterState({ pathname: href });
+        if (href) _routerPathname.val = href;
         // Call original anchor onclick, if defined
         onclick?.bind(anchor)?.(e);
       }

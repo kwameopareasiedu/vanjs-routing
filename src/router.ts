@@ -1,6 +1,7 @@
 import van from "vanjs-core";
-import { getRouterState, updateRouterState } from "@/state";
-import { QUERY_PARAM_REGEX } from "@/utils";
+import { _routerParams, _routerPathname } from "@/_state";
+
+const _QUERY_PARAM_REGEX = /:([^\\d|^/]([^/]+)?)/;
 
 interface Route {
   path: string | "*";
@@ -12,12 +13,12 @@ interface RouterProps extends Partial<HTMLDivElement> {
 }
 
 export function Router({ routes, ...props }: RouterProps) {
+  const ready = van.state(false);
   const rootElement = van.tags.div({ ...props } as never);
 
-  /** Match the current URL pathname to a route.
-   * NB: Matching is done in the order of routes */
+  /** Match the current URL pathname to a route. Matching is done in the order of routes */
   const routeMatcher = (path: string) => {
-    while (path.endsWith("/")) {
+    while (path !== "/" && path.endsWith("/")) {
       path = path.slice(0, path.length - 1);
     }
 
@@ -27,16 +28,16 @@ export function Router({ routes, ...props }: RouterProps) {
 
     for (const route of routes) {
       const routePathParts = route.path.split("/");
-      if (pathParts.length !== routePathParts.length) continue;
+      if (routePathParts.length !== pathParts.length) continue;
 
       let matchFound = true;
 
-      for (let idx = 0; idx < pathParts.length; idx++) {
-        const pathPart = pathParts[idx];
+      for (let idx = 0; idx < routePathParts.length; idx++) {
         const routePathPart = routePathParts[idx];
+        const pathPart = pathParts[idx];
 
-        if (QUERY_PARAM_REGEX.test(pathPart)) {
-          params[pathPart.slice(1)] = routePathPart;
+        if (_QUERY_PARAM_REGEX.test(routePathPart)) {
+          params[routePathPart.slice(1)] = pathPart;
         } else if (pathPart !== routePathPart) {
           matchFound = false;
           break;
@@ -62,7 +63,7 @@ export function Router({ routes, ...props }: RouterProps) {
 
     if (route) {
       rootElement.replaceChildren(route.component);
-      updateRouterState({ params });
+      _routerParams.val = params;
     }
   };
 
@@ -72,8 +73,10 @@ export function Router({ routes, ...props }: RouterProps) {
   });
 
   van.derive(() => {
-    if (getRouterState().pathname) {
-      handleWindowPopState();
+    if (_routerPathname.val) {
+      if (ready.val) {
+        handleWindowPopState();
+      } else ready.val = true;
     }
   });
 
