@@ -20,3 +20,5 @@ export declare const getRouterPathname: () => string;
 export declare const getRouterParams: () => Record<string, string>;
 
 export declare const getRouterQuery: () => Record<string, string>;
+
+export declare const navigate: (href: string, options?: { replace?: boolean }) => Record<string, string>;

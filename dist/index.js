@@ -38,7 +38,7 @@ const _routerPathname = van.state(window.location.pathname);
 const _routerParams = van.state({});
 const _routerQuery = van.state({});
 
-const _QUERY_PARAM_REGEX$1 = /:([^\\d|^/]([^/]+)?)/;
+const _QUERY_PARAM_REGEX = /:([^\\d|^/]([^/]+)?)/;
 function Router(_a) {
     var { routes } = _a, props = __rest(_a, ["routes"]);
     const ready = van.state(false);
@@ -59,7 +59,7 @@ function Router(_a) {
             for (let idx = 0; idx < routePathParts.length; idx++) {
                 const routePathPart = routePathParts[idx];
                 const pathPart = pathParts[idx];
-                if (_QUERY_PARAM_REGEX$1.test(routePathPart)) {
+                if (_QUERY_PARAM_REGEX.test(routePathPart)) {
                     params[routePathPart.slice(1)] = pathPart;
                 }
                 else if (pathPart !== routePathPart) {
@@ -101,12 +101,16 @@ function Router(_a) {
     return rootElement;
 }
 
-function Link(props, ...children) {
-    const _a = props, { onclick, href } = _a, rest = __rest(_a, ["onclick", "href"]);
+function Link(_a, ...children) {
+    var { replace } = _a, props = __rest(_a, ["replace"]);
+    const _b = props, { onclick, href } = _b, rest = __rest(_b, ["onclick", "href"]);
     const anchor = van.tags.a(Object.assign(Object.assign({}, rest), { href, onclick: (e) => {
             var _a;
             e.preventDefault();
-            window.history.pushState({}, "", href);
+            if (!replace)
+                window.history.pushState({}, "", href);
+            else
+                window.history.replaceState({}, "", href);
             // Update the global state of the router to trigger the Router
             if (href)
                 _routerPathname.val = href;
@@ -116,9 +120,16 @@ function Link(props, ...children) {
     return anchor;
 }
 
-const _QUERY_PARAM_REGEX = /:([^\\d|^/]([^/]+)?)/g;
 const getRouterPathname = () => _routerPathname.val;
 const getRouterParams = () => _routerParams.val;
 const getRouterQuery = () => _routerQuery.val;
+const navigate = (href, options) => {
+    const { replace } = options || {};
+    if (!replace)
+        window.history.pushState({}, "", href);
+    else
+        window.history.replaceState({}, "", href);
+    _routerPathname.val = href;
+};
 
-export { Link, Router, _QUERY_PARAM_REGEX, getRouterParams, getRouterPathname, getRouterQuery };
+export { Link, Router, getRouterParams, getRouterPathname, getRouterQuery, navigate };

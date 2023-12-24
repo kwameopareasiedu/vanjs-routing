@@ -5,7 +5,7 @@ interface LinkProps extends Partial<HTMLAnchorElement> {
   replace?: boolean;
 }
 
-export function Link(props: LinkProps, ...children: (HTMLElement | string)[]) {
+export function Link({ replace, ...props }: LinkProps, ...children: (HTMLElement | string)[]) {
   const { onclick, href, ...rest } = props as HTMLAnchorElement;
 
   const anchor = van.tags.a(
@@ -14,7 +14,10 @@ export function Link(props: LinkProps, ...children: (HTMLElement | string)[]) {
       href,
       onclick: (e: MouseEvent) => {
         e.preventDefault();
-        window.history.pushState({}, "", href);
+
+        if (!replace) window.history.pushState({}, "", href);
+        else window.history.replaceState({}, "", href);
+
         // Update the global state of the router to trigger the Router
         if (href) _routerPathname.val = href;
         // Call original anchor onclick, if defined
