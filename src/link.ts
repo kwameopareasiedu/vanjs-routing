@@ -15,7 +15,9 @@ export function Link(props: LinkProps, ...children: (HTMLElement | string)[]) {
       onclick: (e: MouseEvent) => {
         e.preventDefault();
         window.history.pushState({}, "", href);
+        // Update the global state of the router to trigger the Router
         if (href) updateRouterState({ pathname: href });
+        // Call original anchor onclick, if defined
         onclick?.bind(anchor)?.(e);
       }
     },
