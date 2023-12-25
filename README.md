@@ -3,6 +3,8 @@
 The cleanest, simplest declarative routing solution for the [VanJS](https://vanjs.org/) framework. If you are coming
 from React, `vanjs-routing` feels similar to [react-router](https://npmjs.org/package/react-router).
 
+[![](https://img.shields.io/badge/Github-Star-blue)](https://github.com/kwameopareasiedu/vanjs-routing)
+
 ## Install
 
 ```shell
