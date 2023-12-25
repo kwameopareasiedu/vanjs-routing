@@ -60,7 +60,7 @@ function Router(_a) {
                 const routePathPart = routePathParts[idx];
                 const pathPart = pathParts[idx];
                 if (_QUERY_PARAM_REGEX.test(routePathPart)) {
-                    params[routePathPart.slice(1)] = pathPart;
+                    params[decodeURIComponent(routePathPart.slice(1))] = decodeURIComponent(pathPart);
                 }
                 else if (pathPart !== routePathPart) {
                     matchFound = false;
@@ -78,10 +78,24 @@ function Router(_a) {
         }
         return { route: matchedRoute, params };
     };
+    const parseQuery = (search) => {
+        if (search.startsWith("?"))
+            search = search.slice(1).trim();
+        if (!search)
+            return {};
+        const query = {};
+        const groups = search.split("&");
+        for (const group of groups) {
+            const [key, value] = group.split("=");
+            query[decodeURIComponent(key)] = decodeURIComponent(value);
+        }
+        return query;
+    };
     const handleWindowPopState = () => {
         const { route, params } = routeMatcher(window.location.pathname);
         if (route) {
             rootElement.replaceChildren(route.component());
+            _routerQuery.val = parseQuery(window.location.search);
             _routerParams.val = params;
         }
     };
