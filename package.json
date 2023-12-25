@@ -1,6 +1,6 @@
 {
   "name": "vanjs-routing",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Declarative routing for the VanJS framework",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -13,6 +13,7 @@
     "prepublish": "yarn build"
   },
   "devDependencies": {
+    "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^11.1.5",
     "@typescript-eslint/eslint-plugin": "^6.15.0",
     "@typescript-eslint/parser": "^6.15.0",
