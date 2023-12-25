@@ -1,6 +1,6 @@
 interface Route {
   path: string | "*";
-  component: HTMLElement;
+  component: () => HTMLElement;
 }
 
 type Children = string | number | boolean | HTMLElement;

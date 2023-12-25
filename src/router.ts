@@ -5,7 +5,7 @@ const _QUERY_PARAM_REGEX = /:([^\\d|^/]([^/]+)?)/;
 
 interface Route {
   path: string | "*";
-  component: HTMLElement;
+  component: () => HTMLElement;
 }
 
 interface RouterProps extends Partial<HTMLDivElement> {
@@ -62,7 +62,7 @@ export function Router({ routes, ...props }: RouterProps) {
     const { route, params } = routeMatcher(window.location.pathname);
 
     if (route) {
-      rootElement.replaceChildren(route.component);
+      rootElement.replaceChildren(route.component());
       _routerParams.val = params;
     }
   };

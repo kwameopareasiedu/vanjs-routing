@@ -81,7 +81,7 @@ function Router(_a) {
     const handleWindowPopState = () => {
         const { route, params } = routeMatcher(window.location.pathname);
         if (route) {
-            rootElement.replaceChildren(route.component);
+            rootElement.replaceChildren(route.component());
             _routerParams.val = params;
         }
     };
