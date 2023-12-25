@@ -1,6 +1,6 @@
 {
   "name": "vanjs-routing",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Declarative routing for the VanJS framework",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -9,7 +9,8 @@
   "type": "module",
   "scripts": {
     "dev": "rollup -c --watch",
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "prepublish": "yarn build"
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "^11.1.5",
