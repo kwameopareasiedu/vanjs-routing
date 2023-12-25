@@ -1,7 +1,7 @@
 {
   "name": "vanjs-routing",
   "version": "0.1.0",
-  "description": "Declarative router for VanJS framework",
+  "description": "Declarative routing for the VanJS framework",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "author": "Kwame Opare Asiedu",
