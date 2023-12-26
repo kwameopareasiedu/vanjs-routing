@@ -1,5 +1,5 @@
 import van from "vanjs-core";
-import { _routerPathname } from "@/_state";
+import { _routerPathname, _routerBasename } from "@/_state";
 
 interface LinkProps extends Partial<HTMLAnchorElement> {
   replace?: boolean;
@@ -15,11 +15,12 @@ export function Link({ replace, ...props }: LinkProps, ...children: (HTMLElement
       onclick: (e: MouseEvent) => {
         e.preventDefault();
 
-        if (!replace) window.history.pushState({}, "", href);
-        else window.history.replaceState({}, "", href);
+        if (!replace) window.history.pushState({}, "", _routerBasename.val + href);
+        else window.history.replaceState({}, "", _routerBasename.val + href);
 
         // Update the global state of the router to trigger the Router
-        if (href) _routerPathname.val = href;
+        if (href) _routerPathname.val = _routerBasename.val + href;
+
         // Call original anchor onclick, if defined
         onclick?.bind(anchor)?.(e);
       }

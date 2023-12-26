@@ -5,6 +5,7 @@ const { div, p } = van.tags;
 
 export default function App() {
   return Router({
+    basename: "/vanjs-example",
     routes: [
       { path: "/", component: Page1 },
       { path: "/second", component: Page2 },

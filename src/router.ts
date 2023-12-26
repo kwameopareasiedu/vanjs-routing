@@ -1,5 +1,5 @@
 import van from "vanjs-core";
-import { _routerParams, _routerPathname, _routerQuery } from "@/_state";
+import { _routerBasename, _routerParams, _routerPathname, _routerQuery } from "@/_state";
 
 const _QUERY_PARAM_REGEX = /:([^\\d|^/]([^/]+)?)/;
 
@@ -10,24 +10,37 @@ interface Route {
 
 interface RouterProps extends Partial<HTMLDivElement> {
   routes: Route[];
+  basename?: string;
 }
 
-export function Router({ routes, ...props }: RouterProps) {
+export function Router({ routes, basename, ...props }: RouterProps) {
   const ready = van.state(false);
   const rootElement = van.tags.div({ ...props } as never);
 
-  /** Match the current URL pathname to a route. Matching is done in the order of routes */
-  const routeMatcher = (path: string) => {
+  /** Returns a sanitized path which with a leading slash but no trailing slashes*/
+  const sanitizePath = (path: string) => {
+    if (!path) return "";
+
+    if (!path.startsWith("/")) path = "/" + path;
+
     while (path !== "/" && path.endsWith("/")) {
       path = path.slice(0, path.length - 1);
     }
+
+    return path;
+  };
+
+  /** Match the current URL pathname to a route. Matching is done in the order of routes */
+  const routeMatcher = (path: string, basename: string) => {
+    path = sanitizePath(path);
+    basename = sanitizePath(basename);
 
     const pathParts = path.split("/");
     const params: Record<string, string> = {};
     let matchedRoute: Route | null = null;
 
     for (const route of routes) {
-      const routePathParts = route.path.split("/");
+      const routePathParts = sanitizePath(basename + route.path).split("/");
       if (routePathParts.length !== pathParts.length) continue;
 
       let matchFound = true;
@@ -74,7 +87,7 @@ export function Router({ routes, ...props }: RouterProps) {
   };
 
   const handleWindowPopState = () => {
-    const { route, params } = routeMatcher(window.location.pathname);
+    const { route, params } = routeMatcher(window.location.pathname, basename || "");
 
     if (route) {
       rootElement.replaceChildren(route.component());
@@ -94,6 +107,10 @@ export function Router({ routes, ...props }: RouterProps) {
         handleWindowPopState();
       } else ready.val = true;
     }
+  });
+
+  van.derive(() => {
+    _routerBasename.val = sanitizePath(basename || "");
   });
 
   return rootElement;

@@ -856,6 +856,7 @@ source-map-js@^1.0.2:
   integrity sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==
 
 "string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0:
+  name string-width-cjs
   version "4.2.3"
   resolved "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -874,6 +875,7 @@ string-width@^5.0.1, string-width@^5.1.2:
     strip-ansi "^7.0.1"
 
 "strip-ansi-cjs@npm:strip-ansi@^6.0.1", strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+  name strip-ansi-cjs
   version "6.0.1"
   resolved "https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz"
   integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
@@ -959,7 +961,7 @@ ts-interface-checker@^0.1.9:
   resolved "https://registry.npmjs.org/ts-interface-checker/-/ts-interface-checker-0.1.13.tgz"
   integrity sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==
 
-typescript@^5.2.2, typescript@^5.3.3:
+typescript@^5.2.2:
   version "5.3.3"
   resolved "https://registry.npmjs.org/typescript/-/typescript-5.3.3.tgz"
   integrity sha512-pXWcraxM0uxAS+tN0AG/BF2TyqmHO014Z070UsJ+pFvYuRSq8KH8DmWpnbXe0pEPDHXZV3FcAbJkijJ5oNEnWw==
@@ -981,13 +983,6 @@ vanjs-core@^1.2.7:
   version "1.2.7"
   resolved "https://registry.npmjs.org/vanjs-core/-/vanjs-core-1.2.7.tgz"
   integrity sha512-NXZg+kf4OmhTTuTnBiCT6uRqeJiKmKSZLWxvGFmBl8Ho648J+GJZJAHB4cu40rcwJDJEH3Xwe8JjquMpa9zxEQ==
-
-vanjs-routing@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/vanjs-routing/-/vanjs-routing-0.3.0.tgz#8d1b6cc009dff354b29d965501b73fe7aea39026"
-  integrity sha512-BcQULd1BkWSnx6KHzqEQTXL4C1wfa5XaeXCC7FaMUmhOjXjqE8Zl8rvklS16+MdCC12OLhgUBP/Kj3IkkusMeg==
-  dependencies:
-    typescript "^5.3.3"
 
 vite@^5.0.8:
   version "5.0.10"

@@ -1,6 +1,6 @@
 {
   "name": "vanjs-routing",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Declarative routing for the VanJS framework",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

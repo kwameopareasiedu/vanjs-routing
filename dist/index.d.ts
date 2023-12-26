@@ -6,7 +6,7 @@ interface Route {
 type Children = string | number | boolean | HTMLElement;
 
 export declare const Router: (
-  props: { routes: Route[] } & Partial<HTMLDivElement>,
+  props: { routes: Route[]; basename?: string } & Partial<HTMLDivElement>,
   ...children: Children[]
 ) => HTMLElement;
 
