@@ -28,6 +28,7 @@ npm i -S vanjs-routing vanjs-core
 5. Supports dynamic URLs. (E.g. For a dynamic route like `/help/:section/:topic`, use `getRouterParams()` to get the
    values of **section** and **topic** in your component)
 6. Use `getRouterQuery()` to get the query params of a route. (E.g. `/about?foo=bar` returns `{ foo: "bar" }`)
+7. **NEW**: Specify `Router` root using the `basename` attribute
 
 ## Example
 
@@ -41,6 +42,7 @@ const { div, p, button } = van.tags;
 
 function App() {
   return Router({
+    basename: "vanjs-routing", // Optional base name (All links are now prefixed with '/vanjs-routing')
     routes: [
       { path: "/", component: Home },
       { path: "/about", component: About },
@@ -93,6 +95,11 @@ function About() {
 | `getRouterParams()`                                      | Returns an object with key-value mappings for dynamic routes                         |
 | `getRouterQuery()`                                       | Returns an object with key-value mappings for query parameters                       |
 
-
 ## Contributors
+
 - [Kwame Opare Asiedu](https://github.com/kwameopareasiedu)
+
+## ChangeLog
+
+- `1.1.0`
+  - Added `basename` prop to `Router` component. 
