@@ -17,24 +17,19 @@ npm i -S vanjs-routing vanjs-core
 
 ## Features
 
-`vanjs-routing` offers the following features:
-
 1. Declare routes with `Router()` using a clean, simple and concise syntax
 2. Use `Link()` instead of `a()` to navigate between pages
-3. Use `navigate()` to **programmatically** navigate between pages. This is useful for areas `Link` cannot be used.
-   (_E.g._ In a [side-effect](https://vanjs.org/tutorial#side-effect))
-4. Use `getRouterPathname()`, `getRouterParams()` and `getRouterQuery()` to access the internal state of the router
-   anywhere in your code.
-5. Supports dynamic URLs. (E.g. For a dynamic route like `/help/:section/:topic`, use `getRouterParams()` to get the
-   values of **section** and **topic** in your component)
-6. Use `getRouterQuery()` to get the query params of a route. (E.g. `/about?foo=bar` returns `{ foo: "bar" }`)
-7. **NEW**: Specify `Router` root using the `basename` attribute
+3. Use `navigate()` in areas `Link` cannot be used. (_E.g._ In a [side-effect](https://vanjs.org/tutorial#side-effect))
+4. Access the router internal state
+   - Get the current pathname with `getRouterPathname()`
+   - Get the dynamic parameters with `getRouterParams()`
+   - Get the query parameters with `getRouterQuery()`
+5. Supports dynamic URLs (E.g. `/help/:section/:topic`) with `getRouterParams()`
+6. Supports URL prefixing using `Router.basename`. (Useful for sites like Github Pages)
 
-## Example
+## QuickStart
 
-Here's a minimal example of `vanjs-routing` in action
-
-```javascript
+```typescript
 import van from "vanjs-core";
 import { Router, Link, getRouterParams, navigate } from "vanjs-routing";
 
@@ -44,32 +39,22 @@ function App() {
   return Router({
     basename: "vanjs-routing", // Optional base name (All links are now prefixed with '/vanjs-routing')
     routes: [
-      { path: "/", component: Home },
-      { path: "/about", component: About },
-      { path: "/help/:section", component: Section }
+      { path: "/", component: HomeComponent },
+      { path: "/about", component: AboutComponent },
+      { path: "/help/:section", component: HelpComponent }
     ]
   });
 }
 
-function Home() {
-  return div(
-    p("Home"),
-
-    Link({ href: "/about?foo=bar" }, "Goto About"),
-
-    Link({ href: "/help/profile" }, "Goto Help")
-  );
+function HomeComponent() {
+  return div(p("Home"), Link({ href: "/about?foo=bar" }, "Goto About"), Link({ href: "/help/profile" }, "Goto Help"));
 }
 
-function About() {
-  return div(
-    p("About"),
-
-    Link({ href: "/" }, "Back to Home")
-  );
+function AboutComponent() {
+  return div(p("About"), Link({ href: "/" }, "Back to Home"));
 }
 
-function About() {
+function HelpComponent() {
   van.derive(() => {
     console.log(getRouterParams()); // { section: "profile" }
   });
@@ -80,20 +65,77 @@ function About() {
     button({ onclick: () => navigate("/") }, "Back to Home (Imperative navigation)")
   );
 }
+
+van.add(document.body, App());
 ```
 
 ## API Reference
 
-`vanjs-routing` has the following exports:
+### Router
 
-| Name                                                     | Description                                                                          |
-|----------------------------------------------------------|--------------------------------------------------------------------------------------|
-| `Router`                                                 | The root router component. Use this to specify the routes and component functions    |
-| `Link`                                                   | An extended `a` component which taps into the router's internal state for navigation |
-| `navigate(href: string, options: { replace?: boolean })` | Used to perform imperative navigation in areas `Link` cannot be used                 |
-| `getRouterPathname()`                                    | Returns the current pathname of the page                                             |
-| `getRouterParams()`                                      | Returns an object with key-value mappings for dynamic routes                         |
-| `getRouterQuery()`                                       | Returns an object with key-value mappings for query parameters                       |
+- The `Router` component which you use to define your routes
+- Each `route` is an object with a `path` and `component`
+  - The `component` is a function returning an `HTMLElement`
+
+```typescript
+import { Router } from "vanjs-routing";
+
+Router({
+  basename?: string,
+  routes: Array <{
+    path: string,
+    component: () => HTMLElement
+  }>
+});
+```
+
+### Link
+
+- The `Link` extends the `van.tags.a` component to tap into the router's internal state for navigation
+- `Link` is a drop-in replacement for `van.tags.a`
+- If `replace` is set to `true`, the current route will be replaced with the Link's `href`
+
+```typescript
+import { Link } from "vanjs-routing";
+
+Link({
+  replace?: boolean
+  // Additional van.tags.a props
+});
+```
+
+### Navigate
+
+- The `navigate` function is useful in areas where `Link` cannot be used. For example in a function or side-effect
+- If `replace` is set to `true`, the current route will be replaced with `href` instead of pushing to the history stack.
+
+```typescript
+import { navigate } from "vanjs-routing";
+
+navigate(
+  href,
+  options ?: {
+    replace?: boolean
+  }
+)
+```
+
+### Router state helpers
+
+- `getRouterPathname()` returns the current pathname
+- `getRouterParams()` returns the parameter values in a dynamic route
+- `getRouterQuery()` returns the query parameters
+
+```typescript
+import { getRouterPathname, getRouterParams, getRouterQuery } from "vanjs-routing";
+
+// Route path:    /home/:section/:topic
+// Current URL:   https://hello.com/home/learning/science?tab=intro
+
+console.log(getRouterPathname()); //  "/home/learning/science"
+console.log(getRouterParams()); //    { section: "learning", topic: "science" }
+console.log(getRouterQuery()); //     { tab: "intro" }
+```
 
 ## Contributors
 
@@ -101,5 +143,7 @@ function About() {
 
 ## ChangeLog
 
+- `1.1.2`
+  - Update README documentation
 - `1.1.0`
-  - Added `basename` prop to `Router` component. 
+  - Added `basename` prop to `Router` component.
