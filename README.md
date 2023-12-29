@@ -93,7 +93,7 @@ Router({
 
 - The `Link` extends the `van.tags.a` component to tap into the router's internal state for navigation
 - `Link` is a drop-in replacement for `van.tags.a`
-- If `replace` is set to `true`, the current route will be replaced with the Link's `href`
+- If `replace` is set to `true`, the current route will be replaced with the Link's `href` when clicked
 
 ```typescript
 import { Link } from "vanjs-routing";
@@ -141,7 +141,7 @@ console.log(getRouterQuery()); //     { tab: "intro" }
 
 - [Kwame Opare Asiedu](https://github.com/kwameopareasiedu)
 
-## ChangeLog
+## Change Log
 
 - `1.1.2`
   - Update README documentation
