@@ -1,10 +1,6 @@
-node_modules/
-example/
-src/
-.idea/
-.eslintrc.json
-.gitignore
-.prettierrc.json
-rollup.config.js
-tsconfig.json
-*.tgz
+*
+!dist/
+!dist/index.js
+!dist/index.d.ts
+!README.md
+!package.json
