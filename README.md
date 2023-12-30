@@ -4,6 +4,7 @@ The cleanest, simplest declarative routing solution for the [VanJS](https://vanj
 from React, `vanjs-routing` feels similar to [react-router](https://npmjs.org/package/react-router).
 
 [![](https://img.shields.io/badge/Github-Star-blue)](https://github.com/kwameopareasiedu/vanjs-routing)
+[![](https://img.shields.io/badge/Size-2.2Kb-orange)](https://github.com/kwameopareasiedu/vanjs-routing)
 
 ## Install
 
@@ -22,7 +23,7 @@ npm i -S vanjs-routing vanjs-core
 3. Use `navigate()` in areas `Link` cannot be used. (_E.g._ In a [side-effect](https://vanjs.org/tutorial#side-effect))
 4. Access the router internal state
    - Get the current pathname with `getRouterPathname()`
-   - Get the dynamic parameters with `getRouterParams()`
+   - Get the dynamic URL parameters with `getRouterParams()`
    - Get the query parameters with `getRouterQuery()`
 5. Supports dynamic URLs (E.g. `/help/:section/:topic`) with `getRouterParams()`
 6. Supports URL prefixing using `Router.basename`. (Useful for sites like Github Pages)
@@ -132,9 +133,9 @@ import { getRouterPathname, getRouterParams, getRouterQuery } from "vanjs-routin
 // Route path:    /home/:section/:topic
 // Current URL:   https://hello.com/home/learning/science?tab=intro
 
-console.log(getRouterPathname()); //  "/home/learning/science"
-console.log(getRouterParams()); //    { section: "learning", topic: "science" }
-console.log(getRouterQuery()); //     { tab: "intro" }
+console.log(getRouterPathname()); // "/home/learning/science"
+console.log(getRouterParams()); // { section: "learning", topic: "science" }
+console.log(getRouterQuery()); // { tab: "intro" }
 ```
 
 ## Contributors
@@ -143,6 +144,8 @@ console.log(getRouterQuery()); //     { tab: "intro" }
 
 ## Change Log
 
+- `1.1.3`
+  - Update `package.json` metadata and README documentation
 - `1.1.2`
   - Update README documentation
 - `1.1.0`
